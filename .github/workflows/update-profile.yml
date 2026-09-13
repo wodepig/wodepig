@@ -33,6 +33,8 @@ jobs:
       - name: 抓取数据并写入 README
         env:
           OWNER: ${{ github.repository_owner }}
+          # 组织仓库与个人仓库合并为同一份公开数据集；修改组织名时只需改这里。
+          ORG: xxdlovo
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node .github/scripts/update-profile.cjs
 

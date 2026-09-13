@@ -8,13 +8,18 @@
  *
  * 用法：
  *   node .github/scripts/update-profile.cjs <用户名> [--dry]
- * 环境变量：GITHUB_TOKEN（可选，配上能提高接口限额）
+ * 环境变量：
+ *   OWNER：个人账号名，工作流默认传入当前主页仓库所有者。
+ *   ORG：需要合并统计的组织账号名；未设置时使用 xxdlovo。
+ *   GITHUB_TOKEN：可选，配上能提高接口限额。
  */
 
 const fs = require('fs')
 const path = require('path')
 
 const OWNER = process.env.OWNER || process.argv[2]
+// 组织是公开数据的第二个来源。保留环境变量入口，便于以后迁移组织时不用改脚本逻辑。
+const ORG = process.env.ORG || 'xxdlovo'
 const TOKEN = process.env.GITHUB_TOKEN
 const DRY = process.argv.includes('--dry')
 const ROOT = path.resolve(__dirname, '..', '..')
@@ -41,6 +46,22 @@ async function gh(pathname) {
   return res.json()
 }
 
+/**
+ * 读取一个仓库列表接口的所有页面。
+ *
+ * GitHub 每页最多返回 100 项，个人或组织仓库超过这个数量时，直接读取首页会悄悄漏算。
+ * 这里依据本页数量判断是否还有下一页，因此个人与组织两种仓库接口都能复用此函数。
+ */
+async function getAllRepos(pathname) {
+  const repos = []
+  for (let page = 1; ; page += 1) {
+    const joiner = pathname.includes('?') ? '&' : '?'
+    const batch = await gh(`${pathname}${joiner}per_page=100&page=${page}`)
+    repos.push(...batch)
+    if (batch.length < 100) return repos
+  }
+}
+
 /* --------------------------------- 工具函数 -------------------------------- */
 
 const esc = (s) => String(s ?? '').replace(/[|\r\n]/g, ' ').trim()
@@ -58,6 +79,24 @@ function beijingStamp() {
 
 function compact(n) {
   return n >= 1000 ? `${(n / 1000).toFixed(1).replace(/\.0$/, '')}k` : String(n)
+}
+
+/**
+ * 将个人和组织仓库汇总为一份可统计的数据集。
+ *
+ * 主页仓库本身会因自动更新而持续产生提交，不能作为“最近项目”参与排序；Fork 也不代表
+ * 当前账号或组织的原创代码。两类仓库均在这里过滤，并用 full_name 去重，保证后续的
+ * Star、语言和项目列表始终使用同一口径的数据。
+ */
+function mergeRepos(personalRepos, orgRepos) {
+  const unique = new Map()
+  for (const repo of [...personalRepos, ...orgRepos]) {
+    const isProfileRepo =
+      repo.owner.login.toLowerCase() === OWNER.toLowerCase() &&
+      repo.name.toLowerCase() === OWNER.toLowerCase()
+    if (!repo.fork && !isProfileRepo) unique.set(repo.full_name, repo)
+  }
+  return [...unique.values()].sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at))
 }
 
 function replaceBlock(md, key, body) {
@@ -100,12 +139,13 @@ const colorOf = (name) => LANG_COLORS[name] || '#8B98AC'
 
 /* ------------------------------ 技术栈 SVG 生成 ----------------------------- */
 
-function buildStackSvg(langs, totalBytes, repoCount, stamp) {
+function buildStackSvg(langs, totalBytes) {
   const rows = langs.slice(0, MAX_LANGS)
   const W = 680
   const padX = 32
   const rowH = 48
-  const startY = 104
+  // 副标题已从图片中移除，首行上移以避免标题与图表之间留下无意义的空白。
+  const startY = 82
   const H = startY + rows.length * rowH + 24
   const trackW = W - padX * 2
   const max = rows.length ? rows[0].bytes : 1
@@ -131,7 +171,6 @@ function buildStackSvg(langs, totalBytes, repoCount, stamp) {
   .panel{fill:#EDF1F7}
   .card{fill:#EDF1F7;filter:url(#softL)}
   .title{font-family:system-ui,-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:21px;font-weight:800;fill:#3A4759}
-  .sub{font-family:system-ui,-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:12px;fill:#93A0B4}
   .ln{font-family:system-ui,-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:14px;font-weight:700;fill:#4A586C}
   .lp{font-family:system-ui,-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:12.5px;font-weight:600;fill:#93A0B4;text-anchor:end}
   .track{fill:#E0E7F1;filter:url(#inset)}
@@ -140,7 +179,6 @@ function buildStackSvg(langs, totalBytes, repoCount, stamp) {
     .panel{fill:#161B22}
     .card{fill:#171D27;filter:url(#softD)}
     .title{fill:#E6EDF3}
-    .sub{fill:#8B98AC}
     .ln{fill:#D6E0EC}
     .lp{fill:#8B98AC}
     .track{fill:#0E131A;filter:url(#insetD)}
@@ -197,7 +235,6 @@ function buildStackSvg(langs, totalBytes, repoCount, stamp) {
 
 <rect class="panel" x="0" y="0" width="${W}" height="${H}" rx="30"/>
 <text class="title" x="${padX}" y="52">常用技术栈</text>
-<text class="sub" x="${padX}" y="76">按代码量统计 · 取样 ${repoCount} 个仓库 · 更新于 ${stamp}</text>
   ${bars}
 </svg>
 `
@@ -206,28 +243,27 @@ function buildStackSvg(langs, totalBytes, repoCount, stamp) {
 /* ---------------------------------- 主流程 ---------------------------------- */
 
 async function main() {
-  console.log(`开始抓取 ${OWNER} 的公开数据…`)
+  console.log(`开始抓取 ${OWNER} 与 ${ORG} 的公开数据…`)
 
   const user = await gh(`/users/${OWNER}`)
-  const rawRepos = await gh(`/users/${OWNER}/repos?per_page=100&sort=pushed&type=owner`)
-
-  // 排除 fork；排除主页仓库本身，否则它会被机器人一直推到第一位
-  const repos = rawRepos.filter(
-    (r) => !r.fork && r.name.toLowerCase() !== OWNER.toLowerCase()
-  )
+  const [personalRepos, orgRepos] = await Promise.all([
+    // 个人端只取账号真正拥有的公开仓库，协作仓库不计入个人公开仓库统计。
+    getAllRepos(`/users/${OWNER}/repos?sort=pushed&type=owner`),
+    // 组织端明确限制为公开仓库，避免令牌权限变化导致私有项目名称写入公开主页。
+    getAllRepos(`/orgs/${ORG}/repos?sort=pushed&type=public`),
+  ])
+  const repos = mergeRepos(personalRepos, orgRepos)
 
   const stars = repos.reduce((sum, r) => sum + r.stargazers_count, 0)
   const days = Math.floor((Date.now() - new Date(user.created_at).getTime()) / 86400000)
 
-  // 语言分布：只对最近活跃的若干仓库取样
+  // 语言分布只抽样最近活跃的仓库，以控制 Actions 的接口请求数量，同时保持结果有时效性。
   const sample = repos.slice(0, MAX_LANG_REPOS)
   const byteMap = {}
-  let langRepoCount = 0
   for (const r of sample) {
     if (!r.language && r.size === 0) continue
     try {
       const langs = await gh(`/repos/${r.full_name}/languages`)
-      langRepoCount += 1
       for (const [name, bytes] of Object.entries(langs)) {
         byteMap[name] = (byteMap[name] || 0) + bytes
       }
@@ -241,16 +277,17 @@ async function main() {
   const totalBytes = langList.reduce((s, l) => s + l.bytes, 0)
 
   console.log(
-    `  仓库 ${repos.length} · star ${stars} · 关注者 ${user.followers} · 语言 ${langList.length} 种`
+    `  仓库 ${repos.length}（个人 ${personalRepos.length} / 组织 ${orgRepos.length}） · star ${stars} · 语言 ${langList.length} 种`
   )
 
   const stamp = beijingStamp()
 
-  /* --- 区块一：概览数字（半透明卡片，明暗主题自适应） --- */
+  /* --- 区块一：概览数字（仓库、Star 和语言均按个人 + 组织汇总） --- */
   const statsBody = [
-    { v: compact(repos.length), l: '公开仓库' },
-    { v: compact(stars), l: '收获 Star' },
-    { v: compact(user.followers), l: '关注者' },
+    { v: compact(repos.length), l: '开源仓库' },
+    { v: compact(stars), l: '累计 Star' },
+    // 关注者和账号创建日期是个人账号属性，不能把组织成员或组织创建时间混为同一个指标。
+    { v: compact(user.followers), l: '个人关注者' },
     { v: langList[0] ? langList[0].name : '—', l: '最常用语言' },
     { v: `${days}`, l: 'GitHub 天数' },
   ]
@@ -262,19 +299,19 @@ async function main() {
     )
     .join('\n')
 
-  /* --- 区块二：最近在折腾的项目 --- */
+  /* --- 区块二：个人与组织合并后，按最近推送时间排列的项目列表 --- */
   const recentRows = repos.slice(0, 4).map((r) => {
     const pushed = new Date(r.pushed_at)
     const date = `${pushed.getUTCFullYear()}-${pad(pushed.getUTCMonth() + 1)}-${pad(
       pushed.getUTCDate()
     )}`
-    return `| [${esc(r.name)}](https://github.com/${r.full_name}) | ${esc(r.description) ||
-      '暂无描述'} | ${esc(r.language) || '—'} | ${date} |`
+    return `| [${esc(r.name)}](https://github.com/${r.full_name}) | ${esc(r.language) ||
+      '—'} | ${date} |`
   })
   const recentBody = [
-    '| 项目 | 说明 | 主要语言 | 最近提交 |',
-    '| --- | --- | --- | --- |',
-    ...(recentRows.length ? recentRows : ['| 还没有公开项目 | — | — | — |']),
+    '| 项目 | 语言 | 更新日期 |',
+    '| --- | --- | --- |',
+    ...(recentRows.length ? recentRows : ['| 还没有公开项目 | — | — |']),
   ].join('\n')
 
   /* --- 写入 --- */
@@ -283,9 +320,9 @@ async function main() {
   let md = fs.readFileSync(readmePath, 'utf8')
   md = replaceBlock(md, 'STATS', statsBody)
   md = replaceBlock(md, 'RECENT', recentBody)
-  md = replaceBlock(md, 'UPDATED', `> 数据由 GitHub Actions 每 6 小时自动抓取更新，最近一次：${stamp}（北京时间）`)
+  md = replaceBlock(md, 'UPDATED', `<sub>更新于 ${stamp}（北京时间）</sub>`)
 
-  const svg = buildStackSvg(langList, totalBytes, langRepoCount, stamp)
+  const svg = buildStackSvg(langList, totalBytes)
 
   if (DRY) {
     console.log('\n===== STATS =====\n' + statsBody)

@@ -1,9 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 416" width="680" height="416" role="img" aria-label="常用技术栈分布">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 394" width="680" height="394" role="img" aria-label="常用技术栈分布">
 <style>
   .panel{fill:#EDF1F7}
   .card{fill:#EDF1F7;filter:url(#softL)}
   .title{font-family:system-ui,-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:21px;font-weight:800;fill:#3A4759}
-  .sub{font-family:system-ui,-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:12px;fill:#93A0B4}
   .ln{font-family:system-ui,-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:14px;font-weight:700;fill:#4A586C}
   .lp{font-family:system-ui,-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:12.5px;font-weight:600;fill:#93A0B4;text-anchor:end}
   .track{fill:#E0E7F1;filter:url(#inset)}
@@ -12,7 +11,6 @@
     .panel{fill:#161B22}
     .card{fill:#171D27;filter:url(#softD)}
     .title{fill:#E6EDF3}
-    .sub{fill:#8B98AC}
     .ln{fill:#D6E0EC}
     .lp{fill:#8B98AC}
     .track{fill:#0E131A;filter:url(#insetD)}
@@ -67,31 +65,30 @@
   </filter>
 </defs>
 
-<rect class="panel" x="0" y="0" width="680" height="416" rx="30"/>
+<rect class="panel" x="0" y="0" width="680" height="394" rx="30"/>
 <text class="title" x="32" y="52">常用技术栈</text>
-<text class="sub" x="32" y="76">按代码量统计 · 取样 25 个仓库 · 更新于 2026-09-13 19:32</text>
-  <text class="ln" x="32" y="104">Vue</text>
-  <text class="lp" x="648" y="104">52.2%</text>
-  <rect class="track" x="32" y="116" width="616" height="14" rx="7"/>
-  <rect class="fill" x="32" y="116" width="616.0" height="14" rx="7" fill="#41B883"/>
-  <text class="ln" x="32" y="152">TypeScript</text>
-  <text class="lp" x="648" y="152">23.5%</text>
-  <rect class="track" x="32" y="164" width="616" height="14" rx="7"/>
-  <rect class="fill" x="32" y="164" width="277.5" height="14" rx="7" fill="#3178C6"/>
-  <text class="ln" x="32" y="200">Python</text>
-  <text class="lp" x="648" y="200">11.8%</text>
-  <rect class="track" x="32" y="212" width="616" height="14" rx="7"/>
-  <rect class="fill" x="32" y="212" width="139.0" height="14" rx="7" fill="#3572A5"/>
-  <text class="ln" x="32" y="248">HTML</text>
-  <text class="lp" x="648" y="248">8.1%</text>
-  <rect class="track" x="32" y="260" width="616" height="14" rx="7"/>
-  <rect class="fill" x="32" y="260" width="95.5" height="14" rx="7" fill="#E34C26"/>
-  <text class="ln" x="32" y="296">JavaScript</text>
-  <text class="lp" x="648" y="296">2.9%</text>
-  <rect class="track" x="32" y="308" width="616" height="14" rx="7"/>
-  <rect class="fill" x="32" y="308" width="34.0" height="14" rx="7" fill="#F1E05A"/>
-  <text class="ln" x="32" y="344">CSS</text>
-  <text class="lp" x="648" y="344">0.8%</text>
-  <rect class="track" x="32" y="356" width="616" height="14" rx="7"/>
-  <rect class="fill" x="32" y="356" width="10.0" height="14" rx="7" fill="#663399"/>
+  <text class="ln" x="32" y="82">Vue</text>
+  <text class="lp" x="648" y="82">50.7%</text>
+  <rect class="track" x="32" y="94" width="616" height="14" rx="7"/>
+  <rect class="fill" x="32" y="94" width="616.0" height="14" rx="7" fill="#41B883"/>
+  <text class="ln" x="32" y="130">TypeScript</text>
+  <text class="lp" x="648" y="130">32.9%</text>
+  <rect class="track" x="32" y="142" width="616" height="14" rx="7"/>
+  <rect class="fill" x="32" y="142" width="399.7" height="14" rx="7" fill="#3178C6"/>
+  <text class="ln" x="32" y="178">HTML</text>
+  <text class="lp" x="648" y="178">6.3%</text>
+  <rect class="track" x="32" y="190" width="616" height="14" rx="7"/>
+  <rect class="fill" x="32" y="190" width="76.5" height="14" rx="7" fill="#E34C26"/>
+  <text class="ln" x="32" y="226">Python</text>
+  <text class="lp" x="648" y="226">5.8%</text>
+  <rect class="track" x="32" y="238" width="616" height="14" rx="7"/>
+  <rect class="fill" x="32" y="238" width="70.8" height="14" rx="7" fill="#3572A5"/>
+  <text class="ln" x="32" y="274">JavaScript</text>
+  <text class="lp" x="648" y="274">3.2%</text>
+  <rect class="track" x="32" y="286" width="616" height="14" rx="7"/>
+  <rect class="fill" x="32" y="286" width="39.0" height="14" rx="7" fill="#F1E05A"/>
+  <text class="ln" x="32" y="322">CSS</text>
+  <text class="lp" x="648" y="322">0.5%</text>
+  <rect class="track" x="32" y="334" width="616" height="14" rx="7"/>
+  <rect class="fill" x="32" y="334" width="10.0" height="14" rx="7" fill="#663399"/>
 </svg>
