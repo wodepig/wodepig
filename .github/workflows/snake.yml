@@ -1,0 +1,56 @@
+name: 生成贪吃蛇提交图
+
+# 图片直接提交到 main 分支的 assets/，而不是单独的 output 分支：
+# 少一层分支依赖，README 用相对路径引用即可，推送后立即可见，不会因为分支不存在而 404。
+# 保留 push 触发器是为了首次推送就能自动跑一次；提交信息带 [skip ci]，避免机器人自己触发自己。
+
+on:
+  schedule:
+    - cron: "0 */12 * * *"
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+# 和 update-profile.yml 共用同一个组，两个任务串行跑，避免同时 push 撞车
+concurrency:
+  group: update-profile
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 生成蛇图
+        uses: Platane/snk/svg-only@v3
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          outputs: |
+            dist/github-contribution-grid-snake.svg
+            dist/github-contribution-grid-snake-dark.svg?palette=github-dark
+
+      - name: 放进 assets
+        run: |
+          mkdir -p assets
+          cp dist/github-contribution-grid-snake.svg assets/snake.svg
+          cp dist/github-contribution-grid-snake-dark.svg assets/snake-dark.svg
+
+      - name: 提交改动
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- assets/snake.svg assets/snake-dark.svg; then
+            echo "蛇图没有变化，跳过提交"
+          else
+            git add assets/snake.svg assets/snake-dark.svg
+            git commit -m "chore: 更新贪吃蛇提交图 [skip ci]"
+            git pull --rebase origin main
+            git push
+          fi

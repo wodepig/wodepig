@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 220" width="680" height="220" role="img" aria-label="贪吃蛇提交图占位">
+<style>
+  .panel{fill:#EDF1F7}
+  .t{font-family:system-ui,-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:22px;font-weight:800;fill:#3A4759;text-anchor:middle}
+  .s{font-family:system-ui,-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:13px;fill:#7C8AA0;text-anchor:middle}
+  .dot{fill:#C3CDDD}
+  @media (prefers-color-scheme:dark){
+    .panel{fill:#161B22}
+    .t{fill:#E6EDF3}
+    .s{fill:#8B98AC}
+    .dot{fill:#2A3341}
+  }
+</style>
+<rect class="panel" x="0" y="0" width="680" height="220" rx="30"/>
+<g class="dot">
+  <rect x="292" y="72" width="22" height="22" rx="6"/>
+  <rect x="320" y="72" width="22" height="22" rx="6"/>
+  <rect x="348" y="72" width="22" height="22" rx="6"/>
+  <rect x="376" y="72" width="22" height="22" rx="6"/>
+  <rect x="376" y="100" width="22" height="22" rx="6"/>
+  <rect x="348" y="100" width="22" height="22" rx="6"/>
+</g>
+<text class="t" x="340" y="158">贪吃蛇图还没生成</text>
+<text class="s" x="340" y="182">首次推送后 GitHub Actions 会自动生成并替换这张占位图</text>
+</svg>

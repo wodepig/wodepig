@@ -1,0 +1,49 @@
+name: 更新主页动态数据
+
+# README 本身跑不了脚本，所以数据靠定时任务写回文件：
+# 本工作流每 6 小时抓一次真实数据，改写 README 里的 STATS / RECENT / UPDATED 区块，
+# 并重绘 assets/stack.svg。
+# 这里刻意不挂 push 触发器，否则机器人自己的提交会再次触发，形成死循环。
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-profile
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 准备 Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: 抓取数据并写入 README
+        env:
+          OWNER: ${{ github.repository_owner }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node .github/scripts/update-profile.cjs
+
+      - name: 提交改动
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet; then
+            echo "数据没有变化，跳过提交"
+          else
+            git add README.md assets/stack.svg
+            git commit -m "chore: 更新主页动态数据"
+            git push
+          fi
