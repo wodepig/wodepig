@@ -36,7 +36,7 @@
   <div style="margin-top:6px;font-size:11.5px;opacity:0.6;letter-spacing:2px;">累计 Star</div>
 </div>
 <div style="display:inline-block;min-width:112px;padding:16px 20px;margin:7px;border-radius:22px;background:rgba(140,150,170,0.14);box-shadow:7px 7px 15px rgba(20,30,50,0.10),-7px -7px 15px rgba(255,255,255,0.28);">
-  <div style="font-size:26px;font-weight:800;line-height:1.2;">5</div>
+  <div style="font-size:26px;font-weight:800;line-height:1.2;">6</div>
   <div style="margin-top:6px;font-size:11.5px;opacity:0.6;letter-spacing:2px;">个人关注者</div>
 </div>
 <div style="display:inline-block;min-width:112px;padding:16px 20px;margin:7px;border-radius:22px;background:rgba(140,150,170,0.14);box-shadow:7px 7px 15px rgba(20,30,50,0.10),-7px -7px 15px rgba(255,255,255,0.28);">
@@ -75,7 +75,7 @@
 <div align="center">
 
 <!-- UPDATED:START -->
-<sub>更新于 2026-09-15 11:39（北京时间）</sub>
+<sub>更新于 2026-09-15 19:12（北京时间）</sub>
 <!-- UPDATED:END -->
 
 </div>
