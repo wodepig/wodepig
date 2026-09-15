@@ -68,25 +68,25 @@
 <rect class="panel" x="0" y="0" width="680" height="394" rx="30"/>
 <text class="title" x="32" y="52">常用技术栈</text>
   <text class="ln" x="32" y="82">Vue</text>
-  <text class="lp" x="648" y="82">50.7%</text>
+  <text class="lp" x="648" y="82">51.1%</text>
   <rect class="track" x="32" y="94" width="616" height="14" rx="7"/>
   <rect class="fill" x="32" y="94" width="616.0" height="14" rx="7" fill="#41B883"/>
   <text class="ln" x="32" y="130">TypeScript</text>
-  <text class="lp" x="648" y="130">32.9%</text>
+  <text class="lp" x="648" y="130">32.7%</text>
   <rect class="track" x="32" y="142" width="616" height="14" rx="7"/>
-  <rect class="fill" x="32" y="142" width="399.7" height="14" rx="7" fill="#3178C6"/>
+  <rect class="fill" x="32" y="142" width="393.9" height="14" rx="7" fill="#3178C6"/>
   <text class="ln" x="32" y="178">HTML</text>
   <text class="lp" x="648" y="178">6.3%</text>
   <rect class="track" x="32" y="190" width="616" height="14" rx="7"/>
-  <rect class="fill" x="32" y="190" width="76.5" height="14" rx="7" fill="#E34C26"/>
+  <rect class="fill" x="32" y="190" width="75.3" height="14" rx="7" fill="#E34C26"/>
   <text class="ln" x="32" y="226">Python</text>
   <text class="lp" x="648" y="226">5.8%</text>
   <rect class="track" x="32" y="238" width="616" height="14" rx="7"/>
-  <rect class="fill" x="32" y="238" width="70.8" height="14" rx="7" fill="#3572A5"/>
+  <rect class="fill" x="32" y="238" width="69.8" height="14" rx="7" fill="#3572A5"/>
   <text class="ln" x="32" y="274">JavaScript</text>
   <text class="lp" x="648" y="274">3.2%</text>
   <rect class="track" x="32" y="286" width="616" height="14" rx="7"/>
-  <rect class="fill" x="32" y="286" width="39.0" height="14" rx="7" fill="#F1E05A"/>
+  <rect class="fill" x="32" y="286" width="38.4" height="14" rx="7" fill="#F1E05A"/>
   <text class="ln" x="32" y="322">CSS</text>
   <text class="lp" x="648" y="322">0.5%</text>
   <rect class="track" x="32" y="334" width="616" height="14" rx="7"/>
