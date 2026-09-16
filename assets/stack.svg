@@ -74,15 +74,15 @@
   <text class="ln" x="32" y="130">TypeScript</text>
   <text class="lp" x="648" y="130">32.7%</text>
   <rect class="track" x="32" y="142" width="616" height="14" rx="7"/>
-  <rect class="fill" x="32" y="142" width="393.9" height="14" rx="7" fill="#3178C6"/>
+  <rect class="fill" x="32" y="142" width="393.6" height="14" rx="7" fill="#3178C6"/>
   <text class="ln" x="32" y="178">HTML</text>
-  <text class="lp" x="648" y="178">6.3%</text>
+  <text class="lp" x="648" y="178">6.2%</text>
   <rect class="track" x="32" y="190" width="616" height="14" rx="7"/>
   <rect class="fill" x="32" y="190" width="75.3" height="14" rx="7" fill="#E34C26"/>
   <text class="ln" x="32" y="226">Python</text>
   <text class="lp" x="648" y="226">5.8%</text>
   <rect class="track" x="32" y="238" width="616" height="14" rx="7"/>
-  <rect class="fill" x="32" y="238" width="69.8" height="14" rx="7" fill="#3572A5"/>
+  <rect class="fill" x="32" y="238" width="69.7" height="14" rx="7" fill="#3572A5"/>
   <text class="ln" x="32" y="274">JavaScript</text>
   <text class="lp" x="648" y="274">3.2%</text>
   <rect class="track" x="32" y="286" width="616" height="14" rx="7"/>

@@ -66,16 +66,16 @@
 <!-- RECENT:START -->
 | 项目 | 语言 | 更新日期 |
 | --- | --- | --- |
+| [xxdl-webext](https://github.com/wodepig/xxdl-webext) | Vue | 2026-09-16 |
 | [xxdl-tools](https://github.com/wodepig/xxdl-tools) | Vue | 2026-09-15 |
 | [xxdl-nuxt-admin](https://github.com/xxdlovo/xxdl-nuxt-admin) | Vue | 2026-09-05 |
 | [file-update](https://github.com/wodepig/file-update) | Vue | 2026-08-03 |
-| [build-demo](https://github.com/xxdlovo/build-demo) | TypeScript | 2026-07-24 |
 <!-- RECENT:END -->
 
 <div align="center">
 
 <!-- UPDATED:START -->
-<sub>更新于 2026-09-16 11:36（北京时间）</sub>
+<sub>更新于 2026-09-16 18:56（北京时间）</sub>
 <!-- UPDATED:END -->
 
 </div>
