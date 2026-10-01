@@ -66,7 +66,7 @@
 <!-- RECENT:START -->
 | 项目 | 语言 | 更新日期 |
 | --- | --- | --- |
-| [xxdl-nuxt-admin](https://github.com/xxdlovo/xxdl-nuxt-admin) | Vue | 2026-09-30 |
+| [xxdl-nuxt-admin](https://github.com/xxdlovo/xxdl-nuxt-admin) | Vue | 2026-10-01 |
 | [xxdl-webext](https://github.com/wodepig/xxdl-webext) | Vue | 2026-09-16 |
 | [xxdl-tools](https://github.com/wodepig/xxdl-tools) | Vue | 2026-09-15 |
 | [file-update](https://github.com/wodepig/file-update) | Vue | 2026-08-03 |
@@ -75,7 +75,7 @@
 <div align="center">
 
 <!-- UPDATED:START -->
-<sub>更新于 2026-10-01 20:32（北京时间）</sub>
+<sub>更新于 2026-10-02 06:23（北京时间）</sub>
 <!-- UPDATED:END -->
 
 </div>
