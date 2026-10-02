@@ -72,9 +72,9 @@
   <rect class="track" x="32" y="94" width="616" height="14" rx="7"/>
   <rect class="fill" x="32" y="94" width="616.0" height="14" rx="7" fill="#41B883"/>
   <text class="ln" x="32" y="130">TypeScript</text>
-  <text class="lp" x="648" y="130">36.6%</text>
+  <text class="lp" x="648" y="130">36.7%</text>
   <rect class="track" x="32" y="142" width="616" height="14" rx="7"/>
-  <rect class="fill" x="32" y="142" width="458.3" height="14" rx="7" fill="#3178C6"/>
+  <rect class="fill" x="32" y="142" width="459.4" height="14" rx="7" fill="#3178C6"/>
   <text class="ln" x="32" y="178">HTML</text>
   <text class="lp" x="648" y="178">5.4%</text>
   <rect class="track" x="32" y="190" width="616" height="14" rx="7"/>
